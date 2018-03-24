@@ -29,7 +29,12 @@
 .App-intro {
   font-size: large;
 }
-
+.App-logout {
+  padding-top: 20px;
+  padding-right: 20px;
+  float: right;
+  color: #61dafb;
+}
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
