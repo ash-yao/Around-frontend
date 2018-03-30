@@ -1,5 +1,6 @@
 import React from 'react';
 import { Tabs, Button, Spin} from 'antd';
+import {Gallery} from "./Gallery";
 import {GEO_OPTIONS, API_ROOT, AUTH_PREFIX, POS_KEY, TOKEN_KEY} from "../constants";
 import $ from 'jquery';
 const TabPane = Tabs.TabPane;
@@ -60,7 +61,20 @@ export class Home extends React.Component {
             return <Spin size='large' tip = 'Loading Geo Location' className='home-gallery-spin'/>
         if (this.state.loadingPosts)
             return <Spin size='large' tip = 'Loading Posts' className='home-gallery-spin'/>
-        return <h2>Success</h2>
+        if (this.state.posts && this.state.posts.length > 0) {
+            const images = this.state.posts.map((post) => {
+                return {
+                    user: post.user,
+                    src: post.url,
+                    thumbnail: post.url,
+                    thumbnailWidth: 400,
+                    thumbnailHeight: 300,
+                    caption: post.message,
+                }
+            });
+            return <Gallery images={images}/>;
+        }
+        return null;
     }
 
     render() {
