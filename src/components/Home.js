@@ -2,6 +2,7 @@ import React from 'react';
 import { Tabs, Button, Spin} from 'antd';
 import {Gallery} from "./Gallery";
 import {GEO_OPTIONS, API_ROOT, AUTH_PREFIX, POS_KEY, TOKEN_KEY} from "../constants";
+import {PostButton} from "./PostButton";
 import $ from 'jquery';
 const TabPane = Tabs.TabPane;
 
@@ -22,11 +23,10 @@ export class Home extends React.Component {
         }
     }
     loadPosts = ()=>{
-        const lat = 37.7915953;
-        const lon = -122.3937977;
+        const {latitude, longitude} = JSON.parse(localStorage.getItem(POS_KEY));
         this.setState({ loadingPosts: true, error: ''});
-        $.ajax({
-            url: `${API_ROOT}/search?lat=${lat}&lon=${lon}&range=20`,
+        return $.ajax({
+            url: `${API_ROOT}/search?lat=${latitude}&lon=${longitude}&range=20`,
             method:'GET',
             headers:{Authorization: `${AUTH_PREFIX} ${localStorage.getItem(TOKEN_KEY)}`}
         }).then((response) => {
@@ -78,7 +78,7 @@ export class Home extends React.Component {
     }
 
     render() {
-        const operations = <Button type='primary'>Create New Post</Button>
+        const operations = <PostButton loadPosts={this.loadPosts}/>
         return (<Tabs tabBarExtraContent={operations} className = 'main-tabs'>
             <TabPane tab="Posts" key="1">
                 {this.getGalleryContent()}
