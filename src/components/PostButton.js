@@ -38,7 +38,7 @@ export class PostButton extends React.Component {
                     contentType: false,
                     dataType: 'text'
                 }).then(
-                    (response) => {
+                    () => {
                         message.success('created a post successfully.');
                         this.form.resetFields();
                         this.props.loadPosts().then(()=>{
@@ -48,10 +48,12 @@ export class PostButton extends React.Component {
                             })
                         });
                     }, (error) => {
+                        this.setState({confirmLoading: false})
                         message.error(error.responseText);
                     }
                 ).catch((error) => {
                     message.error('create post failed');
+                    this.setState({confirmLoading: false})
                     console.log(error);
                 })
             }
