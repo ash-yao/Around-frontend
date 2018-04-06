@@ -23,11 +23,12 @@ export class Home extends React.Component {
             this.setState({ error: 'Your browser does not support geolocation!' });
         }
     }
-    loadPosts = ()=>{
-        const {latitude, longitude} = JSON.parse(localStorage.getItem(POS_KEY));
+    loadPosts = (location, radius)=>{
+        const { latitude, longitude } = location ? location : JSON.parse(localStorage.getItem(POS_KEY));
+        const range = radius ? radius : 20;
         this.setState({ loadingPosts: true, error: ''});
         return $.ajax({
-            url: `${API_ROOT}/search?lat=${latitude}&lon=${longitude}&range=20`,
+            url: `${API_ROOT}/search?lat=${latitude}&lon=${longitude}&range=${range}`,
             method:'GET',
             headers:{Authorization: `${AUTH_PREFIX} ${localStorage.getItem(TOKEN_KEY)}`}
         }).then((response) => {
@@ -86,10 +87,12 @@ export class Home extends React.Component {
             </TabPane>
             <TabPane tab="Map" key="2">
                 <AroundMap
+                    loadPosts={this.loadPosts}
                     googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
                     loadingElement={<div style={{ height: `100%` }} />}
                     containerElement={<div style={{ height: `400px` }} />}
                     mapElement={<div style={{ height: `100%` }} />}
+                    posts = {this.state.posts}
             /></TabPane>
         </Tabs>)
     }

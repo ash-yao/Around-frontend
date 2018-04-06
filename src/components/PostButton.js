@@ -1,6 +1,6 @@
 import React from  'react';
 import $ from 'jquery';
-import {API_ROOT, TOKEN_KEY, AUTH_PREFIX, POS_KEY} from "../constants";
+import {API_ROOT, TOKEN_KEY, AUTH_PREFIX, POS_KEY, LOC_SHAKE} from "../constants";
 import { Modal, Button, message} from 'antd';
 import {WrappedCreatePostForm} from "./CreatPostForm";
 
@@ -19,8 +19,8 @@ export class PostButton extends React.Component {
             if (!err) {
                 const {latitude, longitude} = JSON.parse(localStorage.getItem(POS_KEY));
                 const formData = new FormData();
-                formData.set('lat', latitude);
-                formData.set('lon', longitude);
+                formData.set('lat', latitude + Math.random() * LOC_SHAKE * 2 - LOC_SHAKE);
+                formData.set('lon', longitude + Math.random() * LOC_SHAKE * 2 - LOC_SHAKE);
                 formData.set('message', values.message);
                 formData.set('image', values.image[0]);
 

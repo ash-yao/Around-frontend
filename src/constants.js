@@ -5,3 +5,4 @@ export const GEO_OPTIONS = {   enableHighAccuracy: true,  
     maximumAge        : 30000,  
     timeout           : 10000 }
 export const AUTH_PREFIX = 'bearer'
+export const LOC_SHAKE = 0.02;
